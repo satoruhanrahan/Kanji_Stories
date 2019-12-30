@@ -3,12 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faPenAlt, faShareAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faPenAlt, faShareAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.config.productionTip = false
 
-library.add({ faSearch, faPenAlt, faShareAlt })
+library.add({ faSearch, faPenAlt, faShareAlt, faEdit })
  
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
