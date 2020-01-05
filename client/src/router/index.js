@@ -5,6 +5,8 @@ import SignUp from '../views/SignUp.vue'
 import Login from '../views/Login.vue'
 import KanjiList from '../views/KanjiList.vue'
 import Kanji from '../views/Kanji.vue'
+import PublicStories from '../views/PublicStories.vue'
+import EditStory from '../views/EditStory.vue'
 
 Vue.use(VueRouter)
 
@@ -36,9 +38,25 @@ const routes = [
     }
   },
   {
-    path: '/kanji/:id',
+    path: '/kanji',
     name: 'Kanji',
     component: Kanji,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/publicStories',
+    name: 'Public Stories',
+    component: PublicStories,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/editStory',
+    name: 'Edit Story',
+    component: EditStory,
     meta: {
       requiresAuth: true
     }

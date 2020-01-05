@@ -14,6 +14,7 @@ mongoose.connect(process.env.DB_CONNECT,
 //Import Routes
 const authRoute = require('./routes/auth');
 const kanjiRoute = require('./routes/kanji');
+const storiesRoute = require('./routes/stories');
 
 //Middleware
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use(cors());
 //Route Middlewares
 app.use('/api/user', authRoute);
 app.use('/api/kanji', kanjiRoute);
+app.use('/api/stories', storiesRoute);
 
 //Listen to server
 app.listen(3000)

@@ -4,7 +4,7 @@
     <h3 id="header-sml">Select a kanji:</h3>
     <div id="kanjiContainer">
       <div class="kanjiBtn" v-for="kanji in N5Kanji" v-bind:key="kanji._id">
-        <router-link :to="{ path: `kanji/${kanji._id}`}">
+        <router-link :to="{ name: 'Kanji', params: { kanjiID: kanji._id } }">
           <div class="kanji">{{ kanji.kanji }}</div>
         </router-link>
       </div>
@@ -14,6 +14,7 @@
 
 <script scoped>
 import KanjiService from "../KanjiService";
+import StoryService from '../StoryService';
 import HeaderWithBtn from '../components/HeaderWithBtn';
 
 export default {
@@ -33,6 +34,7 @@ export default {
       .catch(err => {
         window.console.log(err);
       });
+    await StoryService.retrieveStories()
   }
 };
 </script>

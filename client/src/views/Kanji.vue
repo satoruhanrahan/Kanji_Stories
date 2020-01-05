@@ -3,38 +3,19 @@
     <HeaderWithBtn id="header" />
     <div id="leftSide">
       <div id="kanji">{{ kanji.kanji }}</div>
-      <div id="info">
-        <div class="infoSection">
-          <span class="infoHeader">Meaning:</span>
-          <span class="infoData">{{ kanji.meaning }}</span>
-        </div>
-        <div class="infoSection">
-          <span class="infoHeader">Onyomi:</span>
-          <span class="infoData">{{ kanji.onyomi }}</span>
-        </div>
-        <div class="infoSection">
-          <span class="infoHeader">Kunyomi:</span>
-          <span class="infoData">{{ kanji.kunyomi }}</span>
-        </div>
-        <div v-if="kanji.parts !== 'null'" class="infoSection">
-          <span class="infoHeader">Parts:</span>
-          <div
-            class="part"
-            v-for="(part, index) in kanji.parts"
-            v-bind:key="`part-${index}`"
-          >{{ kanji.parts[`${index}`] }}</div>
-        </div>
-      </div>
+      <KanjiInfo v-bind:kanji="kanji" />
     </div>
     <div id="rightSide">
       <div id="storyWrapper">
         <div id="storyHeader">Story</div>
-        <div id="textAreaWrapper">
-          <textarea name="storyArea" id="storyArea" cols="30" rows="5"></textarea>
+        <router-link to="/editStory">
           <font-awesome-icon id="editBtn" icon="edit"></font-awesome-icon>
-        </div>
+        </router-link>
+        <div id="story">{{ story }}</div>
       </div>
-      <div id="vpsBtn">Public Stories</div>
+      <router-link to="/publicStories">
+        <div id="vpsBtn">Public Stories</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -42,75 +23,60 @@
 <script>
 import store from "../store";
 import HeaderWithBtn from "../components/HeaderWithBtn";
+import KanjiInfo from "../components/KanjiInfo";
+import StoryService from '../StoryService';
 
 export default {
   components: {
-    HeaderWithBtn
+    HeaderWithBtn,
+    KanjiInfo
   },
   data() {
     return {
-      kanji: {}
+      kanji: {},
+      story: {}
     };
   },
   created() {
-    //get all kanji from store
+    //get kanji
     const allKanji = JSON.parse(store.getters.getKanji);
-    //find kanji with id
-    const kanji = allKanji.find(kanji => kanji._id === this.$route.params.id);
-    //set kanji to data
-    this.kanji = kanji;
+    if(this.$route.params.kanjiID){
+      const kanji = allKanji.find(kanji => kanji._id === this.$route.params.kanjiID);
+      this.kanji = kanji;
+      localStorage.setItem('currentKanji', JSON.stringify(kanji));
+    } else {
+      this.kanji = JSON.parse(localStorage.getItem('currentKanji'));
+    }
+    //get story
+    if(this.$route.params.storyID){
+      const storyID = this.$route.params.storyID;
+      this.story = StoryService.getStoryByID(storyID).story;
+      const currentStory = StoryService.getStoryByID(storyID)
+      localStorage.setItem('currentStory', JSON.stringify(currentStory));
+    }
+    else
+      this.story = StoryService.getStoryByKanji(this.kanji._id);
   }
 };
 </script>
 
 <style scoped>
-.infoSection {
-  float: left;
-  display: flex;
-  margin-left: 10vw;
-  margin-top: 0.5rem;
-}
-.infoHeader {
-  width: 25vw;
-  height: 1.5rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 1rem;
-}
-.infoData {
-  width: 45vw;
-  display: flex;
-  align-items: center;
-}
-.part {
-  width: 3rem;
-  height: 1.5rem;
-  display: inline-block;
-  background: #d5d5d5;
-  border: 1px solid #707070;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  margin-right: 0.5rem;
-}
-#info {
-  margin-top: 1.5rem;
+a {
+  text-decoration: none;
 }
 #container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  min-height: 100vh;
   background-color: #f5f2ed;
 }
 #kanji {
-  height: 25vh;
-  width: 25vh;
+  height: 18vh;
+  width: 18vh;
   background: #fff;
-  font-size: 15vh;
+  font-size: 11vh;
   margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
@@ -119,10 +85,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-#storyHeader {
-  float: left;
-  margin-top: 1rem;
 }
 #vpsBtn {
   height: 2rem;
@@ -138,66 +100,39 @@ export default {
   background-color: #2b2626;
   color: #fff;
 }
-#textAreaWrapper {
-  height: fit-content;
-  width: fit-content;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-}
-#storyArea {
+#story {
   margin-top: 0.5rem;
-  border: 1px solid #707070;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 1rem;
+  border: #707070 1px solid;
+  padding: 0.3rem;
+  background: #EFE9DF;
 }
-#editBtn {
-  position: absolute;
-  right: 0.3rem;
-  bottom: 0.6rem;
-  font-size: 1.1rem;
-  color: #2b2626;
+#storyHeader {
+  margin-top: 1rem;
+  display: flex;
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 #storyWrapper {
   display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 10vw;
+  margin-left: 10vw;
+  margin-top: 1rem;
+  position: relative;
 }
-/* Smartphones */
-@media screen and (max-width: 500px) {
-}
-/* Tablets & Small Laptops */
-@media screen and (min-width: 501px) and (max-width: 768px) {
-  #storyWrapper {
-    margin-right: 20vw;
-    margin-left: 20vw;
-  }
+#editBtn {
+  position: absolute;
+  font-size: 1.1rem;
+  color: #2b2626;
+  cursor: pointer;
+  right: 0;
+  top: 1.2rem;
 }
 /* Desktops & Laptops */
 @media screen and (min-width: 769px) and (max-width: 1170px) {
-  .infoSection {
-    display: flex;
-    justify-content: left;
-    align-items: flex-start;
-    margin-left: 1rem;
-    margin-top: 1.5rem;
-  }
-  .infoHeader {
-    display: inline-block;
-    width: fit-content;
-  }
   #kanji {
     float: left;
     margin-left: 10vw;
-    height: 32vh;
-    width: 32vh;
-    font-size: 18vh;
-  }
-  #info {
-    width: 55vw;
-    float: right;
-    margin-top: 3rem;
-    margin-right: 3rem;
   }
   #storyWrapper {
     margin-left: 20vw;
@@ -205,25 +140,9 @@ export default {
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
-  #storyArea {
-    width: 25rem;
-    margin-right: auto;
-    margin-left: auto;
-  }
 }
 /* Widescreens */
 @media screen and (min-width: 1171px) {
-  .infoHeader {
-    width: fit-content;
-  }
-  .infoData {
-    width: fit-content;
-  }
-  .infoSection {
-    margin-left: 6vw;
-    margin-top: 1rem;
-    width: 30vw;
-  }
   #leftSide {
     background: #f5f2ed;
     width: 38vw;
@@ -248,15 +167,12 @@ export default {
     float: right;
     padding-top: 5rem;
   }
-  #storyArea {
-    width: 25rem;
-    margin-right: auto;
-    margin-left: auto;
-  }
   #storyHeader {
-    font-weight: 500;
-    font-size: 1.2rem;
     padding-bottom: 0.5rem;
+  }
+  #storyWrapper {
+    margin-right: 10vw;
+    margin-left: 10vw; 
   }
   #vpsBtn {
     margin-top: 4rem;

@@ -3,7 +3,8 @@ import axios from 'axios';
 const loginUrl = 'http://localhost:3000/api/user/login';
 
 const state = {
-  token: localStorage.getItem('auth_token') || null
+  token: localStorage.getItem('auth_token') || null,
+  userID: localStorage.getItem('userID') || null
 };
 
 const getters = {
@@ -12,6 +13,9 @@ const getters = {
   },
   getToken(state) {
     return state.token;
+  },
+  getUserID(state) {
+    return state.userID;
   }
 };
 
@@ -23,10 +27,12 @@ const actions = {
         password: credentials.password
       })
         .then(response => {
-          const token = response.data;
+          const token = response.data.token;
+          const userID = response.data.userID;
           localStorage.setItem('auth_token', token);
+          localStorage.setItem('userID', userID);
           axios.defaults.headers.common['auth_token'] = token;
-          context.commit('retrieveToken', token);
+          context.commit('retrieveToken', userID, token);
           resolve(response);
         })
         .catch(error => {
@@ -44,7 +50,8 @@ const actions = {
 };
 
 const mutations = {
-  retrieveToken(state, token) {
+  retrieveToken(state, userID, token) {
+    state.userID = userID;
     state.token = token;
   },
   destroyToken(state) {
