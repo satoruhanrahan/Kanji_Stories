@@ -1,8 +1,10 @@
 <template>
   <div id="container">
-    <Header id="header" />
+    <Header id="header" v-bind:backUrl="backUrl"/>
     <div id="mainSection">
-      <img id="logo-dark" src="../assets/logo-dark.png" alt="Kanji Stories" />
+      <routerLink to="/">
+        <img id="logo-dark" src="../assets/logo-dark.png" alt="Kanji Stories" />
+      </routerLink>
       <h3 id="header-sml">Log in to your account</h3>
       <input type="email" placeholder="Email" v-model="email" v-on:keyup.enter="login"/>
       <input type="password" placeholder="Password" v-model="password" v-on:keyup.enter="login"/>
@@ -32,7 +34,8 @@ export default {
     return {
       email: "",
       password: "",
-      errorMessage: { text: "" }
+      errorMessage: { text: "" },
+      backUrl: '/'
     };
   },
   methods: {
@@ -95,6 +98,9 @@ input:focus {
   #logo-dark {
     display: none;
   }
+  #iconDescriptions {
+    display: none;
+  }
 }
 /* Tablets & Small Laptops */
 @media screen and (min-width: 501px) and (max-width: 768px) {
@@ -104,6 +110,9 @@ input:focus {
     margin-right: 4rem;
   }
   #logo-dark {
+    display: none;
+  }
+  #iconDescriptions {
     display: none;
   }
 }

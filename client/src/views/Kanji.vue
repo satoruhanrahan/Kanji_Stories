@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <HeaderWithBtn id="header" />
+    <HeaderWithBtn id="header" v-bind:backUrl="backUrl"/>
     <div id="leftSide">
       <div id="kanji">{{ kanji.kanji }}</div>
       <KanjiInfo v-bind:kanji="kanji" />
@@ -34,7 +34,8 @@ export default {
   data() {
     return {
       kanji: {},
-      story: {}
+      story: {},
+      backUrl: '/kanjiList'
     };
   },
   created() {
@@ -136,7 +137,11 @@ a {
 @media screen and (min-width: 769px) and (max-width: 1170px) {
   #kanji {
     float: left;
-    margin-left: 10vw;
+    margin-left: 15vw;
+    margin-top: 4rem;
+    height: 22vh;
+    width: 22vh;
+    font-size: 13vh
   }
   #storyWrapper {
     margin-left: 20vw;
@@ -160,6 +165,9 @@ a {
   }
   #kanji {
     margin-bottom: 3rem;
+    height: 22vh;
+    width: 22vh;
+    font-size: 13vh
   }
   #container {
     background: #fff;

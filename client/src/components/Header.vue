@@ -1,11 +1,18 @@
 <template>
   <div id="header">
-    <img id="logo" src="../assets/logo.png" alt="Kanji Stories" />
+    <routerLink v-if="backUrl != 'noBackUrl'" :to="backUrl">
+      <font-awesome-icon id="backBtn" icon="arrow-left"></font-awesome-icon>
+    </routerLink>
+    <routerLink to="/">
+      <img id="logo" src="../assets/logo.png" alt="Kanji Stories" />
+    </routerLink>  
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ['backUrl']
+};
 </script>
 
 <style scoped>
@@ -21,5 +28,11 @@ export default {};
   float: left;
   margin-left: 1rem;
   margin-top: 0.2rem;
+}
+#backBtn {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 </style>

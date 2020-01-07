@@ -1,6 +1,11 @@
 <template>
   <div id="header">
-    <img id="logo" src="../assets/logo.png" alt="Kanji Stories" />
+    <routerLink v-if="backUrl != 'noBackUrl'" :to="backUrl">
+      <font-awesome-icon id="backBtn" icon="arrow-left"></font-awesome-icon>
+    </routerLink>
+    <routerLink to="/">
+      <img id="logo" src="../assets/logo.png" alt="Kanji Stories" />
+    </routerLink>
     <div id="logoutBtn" v-on:click="logout">Logout</div>
   </div>
 </template>
@@ -10,6 +15,7 @@ import store from '../store'
 import router from '../router'
 
 export default {
+  props: ['backUrl'],
   methods: {
     logout() {
       store.dispatch("destroyToken").then(() => {
@@ -48,5 +54,11 @@ export default {
   position: absolute;
   right: 1rem;
   top: 0.5rem;
+}
+#backBtn {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 </style>

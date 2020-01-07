@@ -65,7 +65,19 @@ export default {
 #info {
   margin-top: 1.5rem;
 }
-
+#kanji {
+  height: 15vh;
+  width: 15vh;
+  background: #fff;
+  float: left;
+  margin: 1rem;
+  color: #2b2626;
+  font-size: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #2b2626 1px solid;
+}
 /* Desktops & Laptops */
 @media screen and (min-width: 769px) and (max-width: 1170px) {
   .infoSection {
@@ -74,6 +86,7 @@ export default {
     align-items: flex-start;
     margin-left: 1rem;
     margin-top: 1.5rem;
+    width: fit-content;
   }
   .infoHeader {
     display: inline-block;

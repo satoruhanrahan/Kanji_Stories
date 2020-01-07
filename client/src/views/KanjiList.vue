@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <HeaderWithBtn />
+    <HeaderWithBtn v-bind:backUrl="backUrl"/>
     <h3 id="header-sml">Select a kanji:</h3>
     <div id="kanjiContainer">
       <div class="kanjiBtn" v-for="kanji in N5Kanji" v-bind:key="kanji._id">
@@ -23,7 +23,8 @@ export default {
   },
   data() {
     return {
-      N5Kanji: []
+      N5Kanji: [],
+      backUrl: 'noBackUrl'
     };
   },
   async created() {
