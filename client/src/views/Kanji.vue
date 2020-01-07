@@ -50,12 +50,16 @@ export default {
     //get story
     if(this.$route.params.storyID){
       const storyID = this.$route.params.storyID;
-      this.story = StoryService.getStoryByID(storyID).story;
-      const currentStory = StoryService.getStoryByID(storyID)
+      const currentStory = StoryService.getStoryByID(storyID);
+      this.story = currentStory.story;
       localStorage.setItem('currentStory', JSON.stringify(currentStory));
     }
-    else
+    else if(this.$route.params.story){
+      this.story = this.$route.params.story;
+    }
+    else{
       this.story = StoryService.getStoryByKanji(this.kanji._id);
+    }
   }
 };
 </script>

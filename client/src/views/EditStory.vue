@@ -3,10 +3,10 @@
     <HeaderWithBtn />
     <div id="leftSide">
       <div id="kanji">{{ kanji.kanji }}</div>
-      <!-- for larger screens -->
+      <!-- kanjiInfo for larger screens -->
       <KanjiInfo id="kanjiInfo2" v-bind:kanji="kanji" />
     </div>
-    <!-- for smaller screens -->
+    <!-- kanjiInfo for smaller screens -->
     <div id="kanjiInfo1">
       <div class="infoSection">{{ kanji.meaning }}</div>
       <div class="infoSection">{{ kanji.onyomi }}</div>
@@ -27,7 +27,7 @@
       </div>
       <div class="storyWrapper">
         <div id="storyHeader">New Story</div>
-        <textarea name="newStory" id="newStory" cols="30" rows="10"></textarea>
+        <textarea v-model="newStory" name="newStory" id="newStory" cols="30" rows="10"></textarea>
       </div>
       <div id="makePublicSection">
         <div
@@ -41,15 +41,19 @@
         </div>
         <div id="makePublic">Make Public</div>
       </div>
-      <div class="button" id="updateBtn">Update</div>
-      <div class="button" id="cancelBtn">Cancel</div>
+      <div class="button" id="updateBtn" v-on:click="update()">Update</div>
+      <router-link to="/kanji">
+        <div class="button" id="cancelBtn">Cancel</div>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import router from "../router";
 import HeaderWithBtn from "../components/HeaderWithBtn";
 import KanjiInfo from "../components/KanjiInfo";
+import StoryService from "../StoryService";
 
 export default {
   components: {
@@ -60,6 +64,7 @@ export default {
     return {
       kanji: {},
       currentStory: {},
+      newStory: "",
       makePublic: true
     };
   },
@@ -70,11 +75,28 @@ export default {
     //get current story
     const currentStory = JSON.parse(localStorage.getItem("currentStory"));
     this.currentStory = currentStory;
+  },
+  methods: {
+    update() {
+      StoryService.update(
+        this.currentStory._id,
+        this.newStory,
+        this.makePublic,
+        this.kanji._id
+      );
+      router.push({
+        name: "Kanji",
+        params: { kanjiID: this.kanji._id, story: this.newStory }
+      });
+    }
   }
 };
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .infoSection {
   float: left;
   display: flex;
@@ -113,7 +135,6 @@ export default {
 }
 #updateBtn {
   background-color: #2b2626;
-  /* margin-top: 2rem; */
 }
 #cancelBtn {
   background-color: #d5d5d5;
@@ -125,8 +146,12 @@ export default {
   background: #efe9df;
 }
 #newStory {
-  width: 95%;
+  width: 100%;
   height: 5rem;
+  background: #707070 1px solid;
+  border: #707070 1px solid;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
 }
 #storyHeader {
   width: 100%;
@@ -287,6 +312,13 @@ export default {
   }
   #kanjiInfo2 {
     display: inline-block;
+  }
+  #makePublicSection {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+  #updateBtn {
+    margin-bottom: 1.5rem;
   }
 }
 </style>

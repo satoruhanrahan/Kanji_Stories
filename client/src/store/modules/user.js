@@ -29,8 +29,10 @@ const actions = {
         .then(response => {
           const token = response.data.token;
           const userID = response.data.userID;
+          const username = response.data.username;
           localStorage.setItem('auth_token', token);
           localStorage.setItem('userID', userID);
+          localStorage.setItem('username', username);
           axios.defaults.headers.common['auth_token'] = token;
           context.commit('retrieveToken', userID, token);
           resolve(response);

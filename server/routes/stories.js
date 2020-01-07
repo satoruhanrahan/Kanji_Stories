@@ -2,13 +2,14 @@ const router = require('express').Router();
 const mongodb = require('mongodb');
 // const verify = require('../verifyToken');
 
+//get stories
 router.get('/', async (req, res) => {
   const stories = await loadStories();
   res.send(stories);
 });
 
-//changed used story for specific kanji
-router.post('/', async (req, res) => {
+//change user's story for specific kanji
+router.post('/use', async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
     {
       useNewUrlParser: true,
@@ -27,6 +28,24 @@ router.post('/', async (req, res) => {
   res.send(stories);
 });
 
+//insert new story
+router.post('/insert', async (req, res) => {
+  const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+  const storyCollection = client.db('KanjiStories').collection('stories');
+  //remove user id from old story data
+  await storyCollection.insertOne(
+    { story: req.body.story
+      , kanjiID: req.body.kanjiID
+      , creator: req.body.creator
+      , userIDs: [req.body.userID]
+      , public: req.body.makePublic });
+  const stories = await storyCollection.find({}).toArray();
+  res.send(stories);
+});
 
 //Connect to DB and get stories
 async function loadStories() {

@@ -1,16 +1,12 @@
 import store from './store';
-// import kanji from './store/modules/kanji';
 
 class StoryService {
   static retrieveStories() {
-    // const stories = JSON.parse(store.getters.getStories);
-    // if (!stories) {
-      try {
-        store.dispatch('retrieveStories')
-      } catch (err) {
-        window.console.log(err);
-      }
-    // }
+    try {
+      store.dispatch('retrieveStories')
+    } catch (err) {
+      window.console.log(err);
+    }
   }
   static getStoryByKanji(kanjiID) {
     //get user ID
@@ -20,9 +16,8 @@ class StoryService {
     //find user's story
     let storyObj = stories.find(story => story.userIDs.includes(userID) && story.kanjiID === kanjiID);
     //find default story if user's story not found
-    if(!storyObj){
+    if (!storyObj) 
       storyObj = stories.find(story => story.kanjiID === kanjiID);
-    }
     //save as current story
     localStorage.setItem('currentStory', JSON.stringify(storyObj));
     return storyObj.story;
@@ -33,36 +28,33 @@ class StoryService {
     return storyObj;
   }
   static getPublicStories(kanjiID) {
-    // const currentStory = JSON.parse(localStorage.getItem("currentStory"));
-    // window.console.log(currentStory, kanjiID)
-    // const data = { kanjiID: kanjiID, currentStoryID:  };
-    // store.dispatch('retrievePublicStories', data)
     //get stories
     const stories = JSON.parse(store.getters.getStories);
     //filter public stories
     const currentStory = JSON.parse(localStorage.getItem("currentStory"));
-    let storyObjs = stories.filter(story => 
-      story.public == true 
+    let storyObjs = stories.filter(story =>
+      story.public == true
       && story.kanjiID == kanjiID
       && story.story != currentStory.story);
     return storyObjs;
   }
   static useStory(newStoryID) {
-    // return new Promise(function(resolve, reject) {
-      //get user ID
-      const userID = store.getters.getUserID;
-      //get old story
-      const oldStory = JSON.parse(localStorage.getItem("currentStory"));
-      const data = {userID: userID, oldStoryID: oldStory._id, newStoryID: newStoryID};
-      // try{
-        // const response = 
-        store.dispatch('useStory', data)
-
-        // resolve(response);
-      // } catch(err) {
-        // reject(err);
-      // }
-    // });
+    //get user ID
+    const userID = store.getters.getUserID;
+    //get old story
+    const oldStory = JSON.parse(localStorage.getItem("currentStory"));
+    const data = { userID: userID, oldStoryID: oldStory._id, newStoryID: newStoryID };
+    store.dispatch('useStory', data)
+  }
+  static update(oldStoryID, newStory, makePublic, kanjiID) {
+    const userID = store.getters.getUserID;
+    const username = localStorage.getItem("username");
+    const insertData = { newStory: newStory, kanjiID: kanjiID, creator: username, userID: userID, makePublic: makePublic };
+    store.dispatch('insertStory', insertData);
+    //new story is now the current story
+    const currentStory = localStorage.getItem('currentStory');
+    const useStoryData = { userID: userID, oldStoryID: oldStoryID, newStoryID: currentStory._id };
+    store.dispatch('useStory', useStoryData);
   }
 }
 
