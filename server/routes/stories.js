@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
   // const stories = 
   await loadStories()
     .then((stories) => {
+      console.log(stories)
       res.send(stories);
     })
     .catch((err) => {
@@ -70,7 +71,6 @@ async function loadStories() {
           console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
         }
         console.log('Connected...');
-        console.log(client.db('KanjiStories').collection('stories').find({}).toArray())
       });
     return client.db('KanjiStories').collection('stories').find({}).toArray();
   } catch (err) {
