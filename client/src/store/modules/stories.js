@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let url = 'http://localhost:3000/api/stories';
+let url = '/api/stories';
 
 const state = {
   stories: localStorage.getItem('stories') || null

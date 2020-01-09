@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:3000/api/user/signup';
+const url = '/api/user/signup';
 
 class SignUpService {
   // Sign up new account

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const loginUrl = 'http://localhost:3000/api/user/login';
+const loginUrl = '/api/user/login';
 
 const state = {
   token: localStorage.getItem('auth_token') || null,
