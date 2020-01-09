@@ -10,7 +10,7 @@ dotenv.config();
 //   { useNewUrlParser: true, useUnifiedTopology: true },
 //   () => console.log('connected to db!')
 // );
-
+console.log("hello")
 //Import Routes
 const authRoute = require('./routes/auth');
 const kanjiRoute = require('./routes/kanji');
