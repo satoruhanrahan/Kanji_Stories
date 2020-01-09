@@ -32,5 +32,7 @@ if(process.env.NODE_ENV === 'production') {
   //Handle SPA
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 }
+
+const port = process.env.PORT || 5000;
 //Listen to server
-app.listen(process.env.PORT || 5000)
+app.listen(port, () => console.log(`Server started on port ${port}`))
