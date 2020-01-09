@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
       res.send(err);
     });
 });
-
+console.log(process.env.DB_CONNECT)
 //change user's story for specific kanji
 router.post('/use', async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
