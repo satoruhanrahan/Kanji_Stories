@@ -9,7 +9,7 @@ router.get('/', verify, async (req, res) => {
 
 //Connect to DB
 async function loadKanjiCollection() {
-  const client = await mongodb.MongoClient.connect('mongodb+srv://satoruhanrahan:ygshP$_ubC&Ee3a@cluster0-l7ajy.gcp.mongodb.net/KanjiStories?retryWrites=true&w=majority',
+  const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
