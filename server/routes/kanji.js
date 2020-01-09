@@ -2,7 +2,7 @@ const router = require('express').Router();
 const mongodb = require('mongodb');
 const verify = require('../verifyToken');
 
-router.get('/', async (req, res) => {
+router.get('/', verify, async (req, res) => {
   const N5kanji = await loadKanjiCollection();
   res.send(await N5kanji.find({}).toArray());
 });
