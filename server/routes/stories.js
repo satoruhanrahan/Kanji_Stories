@@ -4,8 +4,14 @@ const mongodb = require('mongodb');
 
 //get stories
 router.get('/', async (req, res) => {
-  const stories = await loadStories();
-  res.send(stories);
+  // const stories = 
+  await loadStories()
+    .then((stories) => {
+      res.send(stories);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 //change user's story for specific kanji
@@ -38,23 +44,29 @@ router.post('/insert', async (req, res) => {
   const storyCollection = client.db('KanjiStories').collection('stories');
   //remove user id from old story data
   await storyCollection.insertOne(
-    { story: req.body.story
+    {
+      story: req.body.story
       , kanjiID: req.body.kanjiID
       , creator: req.body.creator
       , userIDs: [req.body.userID]
-      , public: req.body.makePublic });
+      , public: req.body.makePublic
+    });
   const stories = await storyCollection.find({}).toArray();
   res.send(stories);
 });
 
 //Connect to DB and get stories
 async function loadStories() {
-  const client = await mongodb.MongoClient.connect(encodeURI(process.env.DB_CONNECT),
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-  return client.db('KanjiStories').collection('stories').find({}).toArray();
+  try {
+    const client = await mongodb.MongoClient.connect(encodeURI(process.env.DB_CONNECT),
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+    return client.db('KanjiStories').collection('stories').find({}).toArray();
+  } catch (err) {
+    return err;
+  }
 }
 
 module.exports = router;
