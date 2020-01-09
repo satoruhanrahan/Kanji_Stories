@@ -70,8 +70,8 @@ async function loadStories() {
           console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
         }
         console.log('Connected...');
+        return client.db('KanjiStories').collection('stories').find({}).toArray();
       });
-    return client.db('KanjiStories').collection('stories').find({}).toArray();
   } catch (err) {
     return err;
   }
