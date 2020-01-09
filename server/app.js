@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -34,4 +34,4 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 //Listen to server
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
