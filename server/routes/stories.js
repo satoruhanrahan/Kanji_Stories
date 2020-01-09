@@ -49,7 +49,7 @@ router.post('/insert', async (req, res) => {
 
 //Connect to DB and get stories
 async function loadStories() {
-  const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
+  const client = await mongodb.MongoClient.connect(encodeURI(process.env.DB_CONNECT),
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
