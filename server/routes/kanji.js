@@ -4,12 +4,7 @@ const verify = require('../verifyToken');
 
 router.get('/', verify, async (req, res) => {
   const N5kanji = await loadKanjiCollection()
-    .then(() => {
-      res.send(await N5kanji.find({}).toArray());
-    })
-    .catch(function (err) {
-      res.send(err);
-    })
+  res.send(await N5kanji.find({}).toArray());
 });
 
 //Connect to DB
