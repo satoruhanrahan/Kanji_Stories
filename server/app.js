@@ -34,4 +34,4 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 //Listen to server
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || 5000)
