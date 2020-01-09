@@ -32,6 +32,6 @@ if(process.env.NODE_ENV === 'production') {
   //Handle SPA
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 }
-
+console.log(process.env.PORT)
 //Listen to server
 app.listen(process.env.PORT || 5000)
