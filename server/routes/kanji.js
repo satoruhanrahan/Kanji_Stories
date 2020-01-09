@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const mongodb = require('mongodb');
 const verify = require('../verifyToken');
+const dotenv = require('dotenv');
+dotenv.config();
 
 router.get('/', verify, async (req, res) => {
   const N5kanji = await loadKanjiCollection()

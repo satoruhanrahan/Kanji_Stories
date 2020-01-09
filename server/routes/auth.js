@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const {signupValidation, loginValidation} = require('../validation');
+const dotenv = require('dotenv');
+dotenv.config();
 
 router.post('/signup', async (req, res) => {
   //validate data before making user

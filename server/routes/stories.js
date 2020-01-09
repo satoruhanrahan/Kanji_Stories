@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const mongodb = require('mongodb');
+const dotenv = require('dotenv');
+dotenv.config();
 // const verify = require('../verifyToken');
 
 //get stories
