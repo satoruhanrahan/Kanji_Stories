@@ -5,12 +5,12 @@ dotenv.config();
 // const verify = require('../verifyToken');
 
 //get stories
-router.get('/', async (req, res) => {
+router.get('/', verify, async (req, res) => {
   const result = await loadStories();
   res.send(result)
 });
 //change user's story for specific kanji
-router.post('/use', async (req, res) => {
+router.post('/use', verify, async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
     {
       useNewUrlParser: true,
@@ -30,7 +30,7 @@ router.post('/use', async (req, res) => {
 });
 
 //insert new story
-router.post('/insert', async (req, res) => {
+router.post('/insert', verify, async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
     {
       useNewUrlParser: true,
