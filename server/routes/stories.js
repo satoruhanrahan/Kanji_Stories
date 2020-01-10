@@ -8,7 +8,7 @@ dotenv.config();
 router.get('/', async (req, res) => {
   // const stories = 
   // try{
-    (async () => console.log(await loadStories()))()
+    console.log(await loadStories())
 
     // const stories = await loadStories();
     // console.log("stories", stories);
