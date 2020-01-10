@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 //get stories
-router.get('/', verify, async (req, res) => {
+router.get('/', async (req, res) => {
   const result = await loadStories();
   res.send(result)
 });
