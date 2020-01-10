@@ -83,9 +83,11 @@ function loadStories() {
       }
       console.log('Connected...');
       const collection = client.db("KanjiStories").collection("stories");
-      console.log(collection)
-      const stories = collection.find({}).toArray();
-      client.close();
+      const stories = collection.find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log("result", result);
+        client.close();
+      });
       return stories;
     });
   } catch (err) {
