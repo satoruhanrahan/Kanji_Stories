@@ -96,7 +96,7 @@ function loadStories() {
       const stories = collection.find({}).toArray(function(err, result) {
         if (err) throw err;
         client.close();
-        return new Promise(function(res, rej) {
+        return new Promise(function(resolve, reject) {
           if(stories)
             resolve(stories);
           else
