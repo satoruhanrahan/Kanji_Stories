@@ -61,18 +61,32 @@ router.post('/insert', async (req, res) => {
 //Connect to DB and get stories
 async function loadStories() {
   try {
-    const client = await mongodb.MongoClient.connect("mongodb+srv://satoruhanrahan:ygshP%24_ubC%26Ee3a@cluster0-l7ajy.gcp.mongodb.net/stories?ssl=true&authSource=admin&w=majority",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      },
-      function (err, client) {
-        if (err) {
-          console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
-        }
-        console.log('Connected...');
-      });
-    return client.db('KanjiStories').collection('stories').find({}).toArray();
+    // const client = await mongodb.MongoClient.connect("mongodb+srv://satoruhanrahan:ygshP%24_ubC%26Ee3a@cluster0-l7ajy.gcp.mongodb.net/stories?ssl=true&authSource=admin&w=majority",
+    //   {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true
+    //   },
+    //   function (err, client) {
+    //     if (err) {
+    //       console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
+    //     }
+    //     console.log('Connected...');
+    //   });
+    // return client.db('KanjiStories').collection('stories').find({}).toArray();
+
+    const MongoClient = require('mongodb').MongoClient;
+    const uri = "mongodb+srv://satoruhanrahan:ygshP%24_ubC%26Ee3a@cluster0-l7ajy.gcp.mongodb.net/KanjiStories?retryWrites=true&w=majority";
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect(err => {
+      if (err) {
+        console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
+      }
+      console.log('Connected...');
+      const collection = client.db("KanjiStories").collection("stories");
+      const stories = collection.find({}).toArray();
+      client.close();
+      return stories;
+    });
   } catch (err) {
     return err;
   }
