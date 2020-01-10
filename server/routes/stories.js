@@ -7,14 +7,16 @@ dotenv.config();
 //get stories
 router.get('/', async (req, res) => {
   // const stories = 
-  await loadStories()
-    .then((stories) => {
-      console.log("stories", stories)
-      res.send(stories);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  const stories = loadStories();
+  console.log("stories", stories);
+  res.send(stories);
+    // .then((stories) => {
+    //   console.log("stories", stories)
+    //   res.send(stories);
+    // })
+    // .catch((err) => {
+    //   res.send(err);
+    // });
 });
 console.log("process.env", process.env)
 //change user's story for specific kanji
