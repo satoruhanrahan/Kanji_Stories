@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   // const stories = 
   await loadStories()
     .then((stories) => {
-      console.log(stories)
+      console.log("stories", stories)
       res.send(stories);
     })
     .catch((err) => {
@@ -76,7 +76,7 @@ async function loadStories() {
 
     const MongoClient = require('mongodb').MongoClient;
     const uri = "mongodb+srv://satoruhanrahan:ygshP%24_ubC%26Ee3a@cluster0-l7ajy.gcp.mongodb.net/KanjiStories?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, { useNewUrlParser: true });
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     client.connect(err => {
       if (err) {
         console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
