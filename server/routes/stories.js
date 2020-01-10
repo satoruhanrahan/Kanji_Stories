@@ -85,10 +85,9 @@ function loadStories() {
       const collection = client.db("KanjiStories").collection("stories");
       const stories = collection.find({}).toArray(function(err, result) {
         if (err) throw err;
-        console.log("result", result);
         client.close();
+        return stories;
       });
-      return stories;
     });
   } catch (err) {
     return err;
