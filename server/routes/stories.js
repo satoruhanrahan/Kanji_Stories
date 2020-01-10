@@ -83,6 +83,7 @@ function loadStories() {
       }
       console.log('Connected...');
       const collection = client.db("KanjiStories").collection("stories");
+      console.log(collection)
       const stories = collection.find({}).toArray();
       client.close();
       return stories;
