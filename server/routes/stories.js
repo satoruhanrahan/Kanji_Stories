@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const mongodb = require('mongodb');
-const verify = require('../verifyToken');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,7 +9,7 @@ router.get('/', async (req, res) => {
   res.send(result)
 });
 //change user's story for specific kanji
-router.post('/use', verify, async (req, res) => {
+router.post('/use', async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
     {
       useNewUrlParser: true,
@@ -30,7 +29,7 @@ router.post('/use', verify, async (req, res) => {
 });
 
 //insert new story
-router.post('/insert', verify, async (req, res) => {
+router.post('/insert', async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
     {
       useNewUrlParser: true,
