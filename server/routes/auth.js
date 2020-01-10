@@ -40,18 +40,18 @@ router.post('/signup', async (req, res) => {
 //Login
 router.post('/login', async (req,res)=> {
   //validate data before logging in
-  const {error} = loginValidation(req.body);
-  if(error) return res.status(400).send(error.details[0].message);
-  //Checking if the email exists
-  const user = await User.findOne({email: req.body.email});
-  console.log("user", user);
-  if(!user) return res.status(400).send('Email is not found');
-  //Password is correct
-  const validPass = await bcrypt.compare(req.body.password, user.password);
-  if(!validPass) return res.status(400).send('Invalid password');
-  //Create and assign a token
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-  res.header('auth-token', token).send({ userID: user._id, username: user.username, token: token });
+  // const {error} = loginValidation(req.body);
+  // if(error) return res.status(400).send(error.details[0].message);
+  // //Checking if the email exists
+  // const user = await User.findOne({email: req.body.email});
+  console.log("user");
+  // if(!user) return res.status(400).send('Email is not found');
+  // //Password is correct
+  // const validPass = await bcrypt.compare(req.body.password, user.password);
+  // if(!validPass) return res.status(400).send('Invalid password');
+  // //Create and assign a token
+  // const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+  // res.header('auth-token', token).send({ userID: user._id, username: user.username, token: token });
 });
 
 module.exports = router;
