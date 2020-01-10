@@ -8,9 +8,8 @@ dotenv.config();
 router.get('/', async (req, res) => {
   // const stories = 
   // try{
-  console.log("calling")
   const result = await loadStories();
-  console.log("result", result);
+  res.send(result)
 
   // const stories = await loadStories();
   // console.log("stories", stories);
