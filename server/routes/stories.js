@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
       res.send(err);
     });
 });
-console.log("testing", process.env)
+console.log("process.env", process.env)
 //change user's story for specific kanji
 router.post('/use', async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
@@ -85,7 +85,6 @@ function loadStories() {
       const collection = client.db("KanjiStories").collection("stories");
       const stories = collection.find({}).toArray();
       client.close();
-      console.log("stories", stories)
       return stories;
     });
   } catch (err) {
