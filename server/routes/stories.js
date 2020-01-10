@@ -61,7 +61,7 @@ router.post('/insert', async (req, res) => {
 //Connect to DB and get stories
 async function loadStories() {
   try {
-    const client = await mongodb.MongoClient.connect("mongodb+srv://satoruhanrahan:ygshP%24_ubC%26Ee3a@cluster0-l7ajy.gcp.mongodb.net/users?retryWrites=true&w=majority",
+    const client = await mongodb.MongoClient.connect("mongodb+srv://satoruhanrahan:ygshP%24_ubC%26Ee3a@cluster0-l7ajy.gcp.mongodb.net/stories?ssl=true&authSource=admin&w=majority",
       {
         useNewUrlParser: true,
         useUnifiedTopology: true
