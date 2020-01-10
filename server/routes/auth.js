@@ -42,7 +42,7 @@ router.post('/login', async (req,res)=> {
   //validate data before logging in
   const {error} = loginValidation(req.body);
   if(error) return res.status(400).send(error.details[0].message);
-  else console.log("yay")
+  else console.log("error", error)
   // //Checking if the email exists
   // const user = await User.findOne({email: req.body.email});
   // if(!user) return res.status(400).send('Email is not found');
