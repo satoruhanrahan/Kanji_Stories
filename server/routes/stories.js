@@ -7,14 +7,19 @@ dotenv.config();
 //get stories
 router.get('/', async (req, res) => {
   // const stories = 
-  try{
-    const stories = await loadStories();
-    console.log("stories", stories);
-    res.send(stories);
-  } catch(err) {
-    console.log(err);
-    res.send(err);
-  }
+  // try{
+    loadStories().then(response => console.log(response))
+      .catch(err => {
+        console.log(err);
+      });
+
+    // const stories = await loadStories();
+    // console.log("stories", stories);
+    // res.send(stories);
+  // } catch(err) {
+  //   console.log("err", err);
+  //   res.send(err);
+  // }
   
     // .then((stories) => {
     //   console.log("stories", stories)
@@ -24,7 +29,7 @@ router.get('/', async (req, res) => {
     //   res.send(err);
     // });
 });
-console.log("process.env", process.env)
+// console.log("process.env", process.env)
 //change user's story for specific kanji
 router.post('/use', async (req, res) => {
   const client = await mongodb.MongoClient.connect(process.env.DB_CONNECT,
@@ -94,7 +99,12 @@ function loadStories() {
       const stories = collection.find({}).toArray(function(err, result) {
         if (err) throw err;
         client.close();
-        return stories;
+        return new Promise(function(res, rej) {
+          if(stories)
+            resolve(stories);
+          else
+            reject("stories undefined");
+        });
       });
     });
   } catch (err) {
