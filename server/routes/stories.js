@@ -93,14 +93,14 @@ function loadStories() {
       }
       console.log('Connected...');
       const collection = client.db("KanjiStories").collection("stories");
-      const stories = collection.find({}).toArray(function(err, result) {
+      collection.find({}).toArray(function(err, result) {
         if (err) throw err;
         client.close();
         return new Promise(function(resolve, reject) {
-          if(stories)
-            resolve(stories);
+          if(result)
+            resolve(result);
           else
-            reject("stories undefined");
+            reject("result undefined");
         });
       });
     });
